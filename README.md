@@ -1,0 +1,1 @@
+# go-thai-id-validator
