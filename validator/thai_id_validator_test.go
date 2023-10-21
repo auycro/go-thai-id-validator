@@ -27,3 +27,13 @@ func TestEmpty_ThaiIDValidator(t *testing.T) {
 		t.Fatalf(`ThaiIDValidator("") got %v, want %v`, actual, expected)
 	}
 }
+
+func BenchmarkThaiIDValidator(b *testing.B) {
+	b.ReportAllocs()
+	b.StartTimer()
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			ThaiIDValidator("1112034563562")
+		}
+	})
+}

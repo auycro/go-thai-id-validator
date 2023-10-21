@@ -3,26 +3,37 @@ package validator
 import (
 	"regexp"
 	"strconv"
+	"sync"
 )
 
+var thaiIDRegexPool = sync.Pool{
+	New: func() interface{} {
+		// The Pool's New function should generally only return pointer
+		// types, since a pointer can be put into the return interface
+		// value without an allocation:
+		return regexp.MustCompile("!/^[0-9]{13}$/g")
+	},
+}
+
 func ThaiIDValidator(id string) bool {
-	if id == "" {
+	if len(id) != 13 {
 		return false
 	}
 
-	r, _ := regexp.Compile("!/^[0-9]{13}$/g")
-	if r.MatchString(id) {
+	thaiIDRegex := thaiIDRegexPool.Get().(*regexp.Regexp)
+	defer thaiIDRegexPool.Put(thaiIDRegex)
+	if thaiIDRegex.MatchString(id) {
 		return false
 	}
 
 	sum := 0
-	for i, n := range id[0 : len(id)-1] {
-		xint, _ := strconv.Atoi(string(n))
+	for i := 0; i < len(id)-1; i++ {
+		xint, _ := strconv.Atoi(string(id[i]))
 		sum += xint * (13 - i)
 	}
 
 	checkSum := (11 - sum%11) % 10
-	last_num, _ := strconv.Atoi(id[len(id)-1:])
+	lastNum, _ := strconv.Atoi(string(id[len(id)-1]))
 
-	return checkSum == last_num
+	return checkSum == lastNum
 }
