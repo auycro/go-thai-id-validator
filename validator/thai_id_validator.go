@@ -16,7 +16,7 @@ var thaiIDRegexPool = sync.Pool{
 }
 
 func ThaiIDValidator(id string) bool {
-	if len(id) == 0 {
+	if len(id) != 13 {
 		return false
 	}
 
