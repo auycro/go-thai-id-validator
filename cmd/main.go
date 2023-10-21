@@ -19,9 +19,9 @@ func main() {
 	for _, id := range test_id {
 		valid := thai_id_validator.ThaiIDValidator(id)
 		if valid {
-			fmt.Printf("%v is valid!", id)
+			fmt.Printf("%v is valid! \n", id)
 		} else {
-			fmt.Printf("%v is invalid!", id)
+			fmt.Printf("%v is invalid! \n", id)
 		}
 	}
 
