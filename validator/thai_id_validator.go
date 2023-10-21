@@ -5,6 +5,8 @@ import (
 	"strconv"
 )
 
+const maxLengthOfThaiCitizenID = 13
+
 func ThaiIDValidator(citizenID string) bool {
 	if citizenID == "" {
 		return false
@@ -15,14 +17,21 @@ func ThaiIDValidator(citizenID string) bool {
 		return false
 	}
 
-	sum := 0
-	for i, n := range citizenID[0 : len(citizenID)-1] {
-		xint, _ := strconv.Atoi(string(n))
-		sum += xint * (13 - i)
-	}
+	sum := calculationSumCitizenID(citizenID)
 
 	checkSum := (11 - sum%11) % 10
-	last_num, _ := strconv.Atoi(citizenID[len(citizenID)-1:])
+	lastNum, _ := strconv.Atoi(citizenID[len(citizenID)-1:])
 
-	return checkSum == last_num
+	return checkSum == lastNum
+}
+func getCitizenIDIndex(index int32) int {
+	asciiCodeCitizenID, _ := strconv.Atoi(string(index))
+	return asciiCodeCitizenID
+}
+func calculationSumCitizenID(citizenID string) int {
+	sum := 0
+	for index, numberOfCitzenID := range citizenID[0 : len(citizenID)-1] {
+		sum += getCitizenIDIndex(numberOfCitzenID) * (maxLengthOfThaiCitizenID - index)
+	}
+	return sum
 }
