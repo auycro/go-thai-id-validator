@@ -20,9 +20,9 @@ func ThaiIDValidator(citizenID string) bool {
 	sum := calculationSumCitizenID(citizenID)
 
 	checkSum := (11 - sum%11) % 10
-	lastNum, _ := strconv.Atoi(citizenID[len(citizenID)-1:])
+	lastCitizenDigit, _ := strconv.Atoi(citizenID[len(citizenID)-1:])
 
-	return checkSum == lastNum
+	return validateCheckSumCitizenID(checkSum, lastCitizenDigit)
 }
 func calculationSumCitizenID(citizenID string) int {
 	sum := 0
@@ -35,4 +35,7 @@ func calculationSumCitizenID(citizenID string) int {
 func getCitizenIDIndexValue(index int32) int {
 	citizenIDIndexValue, _ := strconv.Atoi(string(index))
 	return citizenIDIndexValue
+}
+func validateCheckSumCitizenID(checkSum, lastCitizenDigit int) bool {
+	return checkSum == lastCitizenDigit
 }
