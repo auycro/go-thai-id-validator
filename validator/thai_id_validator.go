@@ -24,14 +24,15 @@ func ThaiIDValidator(citizenID string) bool {
 
 	return checkSum == lastNum
 }
-func getCitizenIDIndex(index int32) int {
-	asciiCodeCitizenID, _ := strconv.Atoi(string(index))
-	return asciiCodeCitizenID
-}
 func calculationSumCitizenID(citizenID string) int {
 	sum := 0
-	for index, numberOfCitzenID := range citizenID[0 : len(citizenID)-1] {
-		sum += getCitizenIDIndex(numberOfCitzenID) * (maxLengthOfThaiCitizenID - index)
+	for index, numberOfCitizenID := range citizenID[0 : len(citizenID)-1] {
+		sum += getCitizenIDIndexValue(numberOfCitizenID) * (maxLengthOfThaiCitizenID - index)
 	}
 	return sum
+}
+
+func getCitizenIDIndexValue(index int32) int {
+	citizenIDIndexValue, _ := strconv.Atoi(string(index))
+	return citizenIDIndexValue
 }
